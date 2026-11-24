@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sacrament Meeting Planner
 
-## Getting Started
+A Next.js (App Router) app for viewing, navigating and printing sacrament meeting programs. Built with TypeScript and Tailwind CSS for WDD 430 by Pascal Okezie.
 
-First, run the development server:
+## Features
+
+- Typed meeting data (`lib/types.ts`) served from an in-memory store (`lib/meetings-db.ts`)
+- Meeting list, meeting detail and a `/meetings/current` route that redirects to the most recent Sunday's meeting
+- Print-friendly program view
+- API routes for meetings with an optional date filter
+
+## Routes
+
+| Route | Description |
+| --- | --- |
+| `/` | Home |
+| `/meetings` | All meetings, newest first |
+| `/meetings/[id]` | Program for one meeting, with a print button |
+| `/meetings/current` | Redirects to the most recent Sunday's meeting |
+| `/api/meetings` | All meetings as JSON. Optional `?date=YYYY-MM-DD` filter |
+| `/api/meetings/[id]` | One meeting as JSON. Returns 400 for a non-numeric id and 404 when not found |
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Then open http://localhost:3000.
