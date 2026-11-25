@@ -60,7 +60,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
         </ProgramRow>
         <ProgramRow label="Stake Business">{meeting.stakeBusiness ? "Yes" : "No"}</ProgramRow>
         <ProgramRow label="Sacrament Hymn">
-          {meeting.sacramentHymn ? formatHymn(meeting.sacramentHymn) : "No sacrament at this meeting"}
+          {formatHymn(meeting.sacramentHymn)}
         </ProgramRow>
         <ProgramRow label="Speakers and Music">
           {program.length > 0 ? (

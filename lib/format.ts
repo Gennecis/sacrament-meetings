@@ -5,6 +5,7 @@ export const meetingTypeLabels: Record<MeetingType, string> = {
   regular: "Sacrament Meeting",
   stake: "Stake Conference",
   general: "General Conference",
+  special: "Special Meeting",
 };
 
 /** Formats a YYYY-MM-DD string without shifting it into the local time zone. */
