@@ -10,6 +10,9 @@ A Next.js (App Router) app for viewing, navigating and printing sacrament meetin
 - Meeting list, meeting detail and a `/meetings/current` route that redirects to the most recent Sunday's meeting
 - Print-friendly program view
 - API routes for meetings with an optional date filter
+- Create, edit and delete meetings with Server Actions (`lib/actions.ts`), validated on the server with Zod
+- Accessible forms: labelled fields, field-level errors announced to screen readers, and a pending state while saving
+- Error boundaries for the meetings routes and a not-found page for missing meetings
 
 ## Routes
 
@@ -19,8 +22,8 @@ A Next.js (App Router) app for viewing, navigating and printing sacrament meetin
 | `/meetings` | All meetings, newest first. Supports `?query=` and `?page=` |
 | `/meetings/[id]` | Program for one meeting, with a print button |
 | `/meetings/current` | Redirects to the most recent Sunday's meeting |
-| `/meetings/new` | Create a meeting (placeholder until Week 04) |
-| `/meetings/[id]/edit` | Edit a meeting (placeholder until Week 04) |
+| `/meetings/new` | Create a meeting |
+| `/meetings/[id]/edit` | Edit a meeting. Shows a not-found page for an unknown id |
 | `/api/meetings` | Meetings as JSON. Optional `?date=YYYY-MM-DD` filter, or `?query=` and `?page=` |
 | `/api/meetings/[id]` | One meeting as JSON. Returns 400 for a non-numeric id and 404 when not found |
 

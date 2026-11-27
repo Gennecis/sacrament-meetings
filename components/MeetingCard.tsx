@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DeleteMeetingButton from "./DeleteMeetingButton";
 import { formatMeetingDate, meetingTypeLabels } from "@/lib/format";
 import type { SacramentMeeting } from "@/lib/types";
 
@@ -8,6 +9,7 @@ interface MeetingCardProps {
 
 export default function MeetingCard({ meeting }: MeetingCardProps) {
   const speakerCount = meeting.speakers.filter((item) => item.type === "speaker").length;
+  const dateLabel = formatMeetingDate(meeting.date);
 
   return (
     <article className="rounded-lg border border-line bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
@@ -19,7 +21,7 @@ export default function MeetingCard({ meeting }: MeetingCardProps) {
           href={`/meetings/${meeting.id}`}
           className="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         >
-          {formatMeetingDate(meeting.date)}
+          {dateLabel}
         </Link>
       </h2>
       <dl className="mt-3 space-y-1 text-sm text-muted">
@@ -32,6 +34,15 @@ export default function MeetingCard({ meeting }: MeetingCardProps) {
           <dd>{speakerCount === 0 ? "None scheduled" : speakerCount}</dd>
         </div>
       </dl>
+      <div className="mt-4 flex gap-4 border-t border-line pt-3 text-sm print:hidden">
+        <Link
+          href={`/meetings/${meeting.id}/edit`}
+          className="font-medium text-brand hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          Edit<span className="sr-only"> meeting on {dateLabel}</span>
+        </Link>
+        <DeleteMeetingButton id={meeting.id} label={dateLabel} />
+      </div>
     </article>
   );
 }

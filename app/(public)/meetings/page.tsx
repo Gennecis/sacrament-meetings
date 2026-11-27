@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import MeetingCard from "@/components/MeetingCard";
 import MeetingSearch from "@/components/MeetingSearch";
 import Pagination from "@/components/Pagination";
@@ -20,7 +21,15 @@ export default async function MeetingsPage(props: { searchParams: Promise<{ quer
 
   return (
     <section className="space-y-6">
-      <h1 className="text-3xl font-bold text-brand">All Meetings</h1>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-3xl font-bold text-brand">All Meetings</h1>
+        <Link
+          href="/meetings/new"
+          className="rounded-md bg-brand px-4 py-2 font-semibold text-white hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand print:hidden"
+        >
+          Create meeting
+        </Link>
+      </div>
       <MeetingSearch />
       {meetings.length === 0 ? (
         <p className="text-muted">

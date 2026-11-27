@@ -117,18 +117,53 @@ export async function getLatestMeetingIdOnOrBefore(date: string): Promise<number
 
 // Create, update and delete are implemented in Week 04.
 
-export async function addMeeting(data: Omit<SacramentMeeting, "id">): Promise<SacramentMeeting> {
-  void data;
-  throw new Error("addMeeting is not implemented yet.");
+/** The fields a meeting form submits: everything except the generated id. */
+export type MeetingInput = Omit<SacramentMeeting, "id">;
+
+/** Inserts a meeting and returns its new id. */
+export async function addMeeting(data: MeetingInput): Promise<number> {
+  const rows = await sql`
+    INSERT INTO meetings (
+      date, meeting_type, presiding, conducting, announcements,
+      opening_hymn, opening_prayer, ward_business, stake_business,
+      sacrament_hymn, speakers, closing_hymn, closing_prayer
+    ) VALUES (
+      ${data.date}, ${data.meetingType}, ${data.presiding}, ${data.conducting}, ${data.announcements ?? []},
+      ${JSON.stringify(data.openingHymn)}::jsonb, ${data.openingPrayer},
+      ${JSON.stringify(data.wardBusiness)}::jsonb, ${data.stakeBusiness},
+      ${JSON.stringify(data.sacramentHymn)}::jsonb, ${JSON.stringify(data.speakers)}::jsonb,
+      ${JSON.stringify(data.closingHymn)}::jsonb, ${data.closingPrayer}
+    )
+    RETURNING id
+  `;
+  return rows[0].id as number;
 }
 
-export async function updateMeeting(id: number, updates: Partial<SacramentMeeting>): Promise<SacramentMeeting | null> {
-  void id;
-  void updates;
-  throw new Error("updateMeeting is not implemented yet.");
+/** Replaces every field of a meeting. Returns false when no meeting has that id. */
+export async function updateMeeting(id: number, data: MeetingInput): Promise<boolean> {
+  const rows = await sql`
+    UPDATE meetings SET
+      date = ${data.date},
+      meeting_type = ${data.meetingType},
+      presiding = ${data.presiding},
+      conducting = ${data.conducting},
+      announcements = ${data.announcements ?? []},
+      opening_hymn = ${JSON.stringify(data.openingHymn)}::jsonb,
+      opening_prayer = ${data.openingPrayer},
+      ward_business = ${JSON.stringify(data.wardBusiness)}::jsonb,
+      stake_business = ${data.stakeBusiness},
+      sacrament_hymn = ${JSON.stringify(data.sacramentHymn)}::jsonb,
+      speakers = ${JSON.stringify(data.speakers)}::jsonb,
+      closing_hymn = ${JSON.stringify(data.closingHymn)}::jsonb,
+      closing_prayer = ${data.closingPrayer}
+    WHERE id = ${id}
+    RETURNING id
+  `;
+  return rows.length > 0;
 }
 
+/** Deletes a meeting. Returns false when no meeting has that id. */
 export async function deleteMeeting(id: number): Promise<boolean> {
-  void id;
-  throw new Error("deleteMeeting is not implemented yet.");
+  const rows = await sql`DELETE FROM meetings WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }
